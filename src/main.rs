@@ -86,13 +86,13 @@ impl Sandbox for JsonViewer {
             Message::Filename,
         );
 
-        let jsonView = if let Some(json) = &self.json {
+        let json_view = if let Some(json) = &self.json {
             Text::new(json.to_string())
         } else {
             Text::new("no json found in file").horizontal_alignment(alignment::Horizontal::Center)
         };
 
-        let left = Column::new().push(fileselector).push(jsonView);
+        let left = Column::new().push(fileselector).push(json_wiew);
 
         let query = TextInput::new(
             &mut self.query_state,
