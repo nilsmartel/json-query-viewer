@@ -47,7 +47,7 @@ impl Sandbox for JsonViewer {
 
     fn title(&self) -> String {
         let mut t = String::from("Json Viewer");
-        if !self.json.is_some() {
+        if self.json.is_none() {
             t += " - ";
             t += &self.filename;
         }
@@ -57,18 +57,18 @@ impl Sandbox for JsonViewer {
     fn update(&mut self, message: Self::Message) {
         match message {
             Message::Filename(filename) => {
-                self.filename = filename;
                 let json = std::fs::read_to_string(&filename).unwrap_or_default();
                 let json = serde_json::from_str(&json).ok();
                 self.json = json;
+                self.filename = filename;
             }
             Message::Resize(n) => {
                 eprintln!("Resize to {n}");
             }
             Message::Query(query) => {
                 self.query = query;
-                if let Some(json) = self.json {
-                    self.json_result = jql::walker(&json, &self.query).ok()
+                if let Some(json) = &self.json {
+                    self.json_result = jql::walker(json, &self.query).ok()
                 } else {
                     self.json_result = None;
                 }
