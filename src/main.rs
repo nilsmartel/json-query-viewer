@@ -92,7 +92,7 @@ impl Sandbox for JsonViewer {
             Text::new("no json found in file").horizontal_alignment(alignment::Horizontal::Center)
         };
 
-        let left = Column::new().push(fileselector).push(json_wiew);
+        let left = Column::new().push(fileselector).push(json_view);
 
         let query = TextInput::new(
             &mut self.query_state,
