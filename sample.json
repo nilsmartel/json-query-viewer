@@ -1,0 +1,13 @@
+{
+    "name": {
+        "first": ["Nils", "Steffen"],
+        "surname": ["Martel"]
+    },
+    "fullname": "Nils Martel",
+    "birthday": {
+        "year": 1997,
+        "month": "july",
+        "day": 12
+    },
+    "occupation": "Student"
+}

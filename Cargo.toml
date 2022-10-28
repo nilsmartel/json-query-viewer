@@ -1,0 +1,23 @@
+[package]
+name = "json-query"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+# A cross-platform GUI library inspired by Elm
+iced = "0.4.2"
+
+# Additional widgets for the Iced GUI library
+iced_aw = "0.2.0"
+
+# A JSON query language CLI tool
+jql = "5.1.1"
+
+# A generic serialization/deserialization framework
+serde = "1.0.147"
+
+# A JSON serialization file format
+serde_json = "1.0.87"
+
