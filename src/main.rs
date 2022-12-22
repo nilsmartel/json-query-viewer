@@ -1,6 +1,7 @@
 use iced::{alignment, text_input, Column, Sandbox, Settings, Text, TextInput};
 use iced_aw::split;
 
+use serde::Deserializer;
 use serde_json::Value;
 
 fn main() {
@@ -61,6 +62,12 @@ impl Sandbox for JsonViewer {
                 let json = serde_json::from_str(&json).ok();
                 self.json = json;
                 self.filename = filename;
+
+                if let Some(json) = &self.json {
+                    self.json_result = jql::walker(json, &self.query).ok()
+                } else {
+                    self.json_result = None;
+                }
             }
             Message::Resize(n) => {
                 eprintln!("Resize to {n}");
@@ -92,6 +99,8 @@ impl Sandbox for JsonViewer {
             Text::new("no json found in file").horizontal_alignment(alignment::Horizontal::Center)
         };
 
+        let json_view = iced::Container::new(json_view).center_x().center_y();
+
         let left = Column::new().push(fileselector).push(json_view);
 
         let query = TextInput::new(
@@ -101,7 +110,14 @@ impl Sandbox for JsonViewer {
             Message::Query,
         );
 
-        let right = Column::new().push(query);
+        let json_view = if let Some(json) = &self.json_result {
+            Text::new(json.to_string())
+        } else {
+            Text::new("no json found in file").horizontal_alignment(alignment::Horizontal::Center)
+        };
+
+        let right = Column::new().push(query).push(json_view);
+
 
         let s = Split::new(&mut self.split_state, left, right, Message::Resize);
 
